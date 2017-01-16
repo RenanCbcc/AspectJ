@@ -1,20 +1,24 @@
 package pacote;
 import pacote.InsufficientBalanceException;
 public abstract class Account {
-	private float _balance;
-	private int _accountNumber;
-
+	private int balance;
+	private int accountNumber;
+	private int password;
+	
+	
 	public Account(int accountNumber) {
-		_accountNumber = accountNumber;
+		accountNumber = accountNumber;
+	}
+	
+	
+	public void credit(String amount)throws IllegalArgumentException{
+		int number = Integer.parseInt(amount);  
+		setBalance(getBalance() + number);
 	}
 
-	public void credit(float amount) {
-		setBalance(getBalance() + amount);
-	}
-
-	public void debit(float amount) throws InsufficientBalanceException 
+	public void debit(int amount) throws InsufficientBalanceException 
 	{
-		float balance = getBalance();
+		int balance = getBalance();
 		
 		if (balance < amount) 
 		{
@@ -26,11 +30,19 @@ public abstract class Account {
 		}
 	}
 
-	public float getBalance() {
-		return _balance;
+	public void setpassword(String str) throws NumberFormatException
+	{
+		int number = Integer.parseInt(str);
+		password = number;
+        
+	}
+	
+	public int getBalance() {
+		return balance;
 	}
 
-	public void setBalance(float balance) {
-		_balance = balance;
+	
+	public void setBalance(int value) {
+		balance = value;
 	}
 }
