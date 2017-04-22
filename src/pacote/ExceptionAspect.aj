@@ -4,22 +4,29 @@ import javax.swing.JOptionPane;
 public aspect ExceptionAspect {
 	
 	
-	pointcut accountOperatio ():call(void Account.Debit(..));
-	pointcut accountPassword():call(void Account.setpassword(..));
+	public pointcut accountExceptionIBE():call(void Account.*(..));
+	public pointcut accountExceptionIAE():call(void Account.*(..));
+	public pointcut accountExceptionNFE():call(void Account.*(..));
 	
-	after() throwing (InsufficientBalanceException ibe): 
-		call(void Account.*(..)) 
+	NumberFormatException
+	after() throwing (InsufficientBalanceException ibe): accountExceptionIBE()
 		{
 		
 		 JOptionPane.showMessageDialog(null,ibe.getMessage(),"Erro",0);
 		 System.exit(0);
 		}
 	
-	after() throwing (IllegalArgumentException iae): 
-		call(void Account.*(..)) 
+	after() throwing (NumberFormatException nfe): accountExceptionIBE()
 		{
-		String str = "Senha inválida"; 
-		JOptionPane.showMessageDialog(null,str,iae.getMessage(),0);
+		
+		 JOptionPane.showMessageDialog(null,nfe.getMessage(),"Erro",0);
+		 System.exit(0);
+		}
+	
+	after() throwing (IllegalArgumentException iae): accountOperatioIAE() 
+		{
+		String str = "Senha invalida"; 
+		JOptionPane.showMessageDialog(null,iae,iae.getMessage(),0);
 		 System.exit(0);
 		}
 	
