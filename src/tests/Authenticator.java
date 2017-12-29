@@ -13,11 +13,34 @@ public class Authenticator {
 	}
 
 	public void authenticate() {
-		if (user.isEmpty() && pass.isEmpty()) {
+		if (isAuthenticated()) {
 			System.out.println("Username :");
 			user = in.nextLine();
 			System.out.println("Password :");
 			pass = in.nextLine();
+		}
+	}
+
+	public void authenticate(String pass) {
+		if (isAuthenticated(pass)) {
+			System.out.println("AcKnowledgment");
+		}
+		System.out.println("Denide");
+	}
+
+	private boolean isAuthenticated() {
+		if (user.isEmpty() && pass.isEmpty()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private boolean isAuthenticated(String pass) {
+		if (!pass.isEmpty() && pass.equals(pass)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 

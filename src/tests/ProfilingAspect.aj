@@ -1,7 +1,7 @@
 package tests;
 
 public aspect ProfilingAspect {
-	pointcut publicOperation() : execution(public * *.*(..));
+	pointcut publicOperation() : execution(private * *.*(..));
 
 	Object around() : publicOperation() {
 		long start = System.nanoTime();

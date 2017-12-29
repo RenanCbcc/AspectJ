@@ -39,8 +39,11 @@ public final class Manager extends UnicastRemoteObject implements Messenger {
 	}
 
 	@Override
-	public boolean makingaWithdrawal(int id, double value) throws RemoteException {
-		// TODO Auto-generated method stub
+	public boolean makingaWithdrawal(int id, double value) throws RemoteException, InsufficientBalanceException {
+		if (accounts.containsKey(id)) {
+			accounts.get(id).withdraw(value);
+			return true;
+		}
 		return false;
 	}
 

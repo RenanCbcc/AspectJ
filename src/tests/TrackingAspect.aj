@@ -1,7 +1,12 @@
 package tests;
 
+import interfaces.AccessTracked;
+
 public aspect TrackingAspect {
 	declare parents: MessageCommunicator implements AccessTracked;
+	
+	// The above code has the same effect as declaring: MessageCommunicator
+	// implements AccessTracked
 	private long AccessTracked.lastAccessedTime;
 
 	public void AccessTracked.updateLastAccessedTime() {
@@ -12,13 +17,11 @@ public aspect TrackingAspect {
 		return lastAccessedTime;
 	}
 
-	before(AccessTracked accessTracked)
-: execution(* AccessTracked+.*(..))
-&& !execution(* AccessTracked.*(..))
-&& this(accessTracked) {
-		accessTracked.updateLastAccessedTime();
-	}
+	before(AccessTracked accessTracked): execution(* AccessTracked+.*(..))
+		&& !execution(* AccessTracked.*(..))// but not the method in AccessTracked
+			&& this(accessTracked) 
+			{
+				accessTracked.updateLastAccessedTime();
+			}
 
-	private static interface AccessTracked {
-	}
 }
