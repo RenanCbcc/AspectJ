@@ -7,7 +7,7 @@ import java.util.Date;
 
 import exceptions.InsufficientBalanceException;
 
-public class Account {
+public abstract class Account {
 	private double balance, limit, withdraw;
 	private int id;
 	private String user, password;

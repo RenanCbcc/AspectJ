@@ -9,7 +9,7 @@ public class Main {
 
 	public static void main(String[] args) throws RemoteException, AlreadyBoundException {
 		Registry registry = LocateRegistry.createRegistry(1984);
-		registry.bind("manager", Manager.getInstance());
+		registry.bind("manager", Bank.getInstance());
 
 	}
 

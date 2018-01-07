@@ -4,16 +4,19 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import exceptions.InsufficientBalanceException;
 import interfaces.Messenger;
 
-public final class Manager extends UnicastRemoteObject implements Messenger {
-	
-	 
+public final class Bank extends UnicastRemoteObject implements Messenger {
+
 	private static Messenger instance = null;
 	private HashMap<Integer, Account> accounts;
+	private final String name = "Midas Back";
 
-	protected Manager() throws RemoteException {
+	protected Bank() throws RemoteException {
 		super();
 		accounts = new HashMap<Integer, Account>();
 	}
@@ -25,7 +28,22 @@ public final class Manager extends UnicastRemoteObject implements Messenger {
 		if (accounts.containsKey(id)) {
 			return false;
 		}
-		accounts.put(id, new Account(name, id));
+
+		String[] options = { "Common", "Premium", "Savings Account" };
+		String choise = (String) JOptionPane.showInputDialog(new JFrame(), "Select a option !!!", "Welcome!",
+				JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		switch (choise) {
+		case "Common":
+			accounts.put(id, new Common(name, id));
+			break;
+		case "Premium":
+			accounts.put(id, new Premium(name, id));
+			break;
+		case "Savings Account":
+			accounts.put(id, new SavingsAccount(name, id));
+			break;
+		}
+
 		return true;
 	}
 
@@ -67,14 +85,18 @@ public final class Manager extends UnicastRemoteObject implements Messenger {
 
 	public static Messenger getInstance() throws RemoteException {
 		if (instance == null) {
-			instance = new Manager();
+			instance = new Bank();
 
 		}
 
 		return instance;
 	}
-	
-	public int getNewId(){
+
+	public int getNewId() {
 		return accounts.size();
+	}
+	
+	public String name(){
+		return name;
 	}
 }

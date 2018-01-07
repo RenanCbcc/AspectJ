@@ -1,4 +1,4 @@
-package tests;
+package performance;
 
 public aspect ProfilingAspect {
 	pointcut publicOperation() : execution(private * *.*(..));
