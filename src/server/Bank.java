@@ -7,7 +7,7 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import exceptions.InsufficientBalanceException;
+import exception.InsufficientBalanceException;
 import interfaces.Messenger;
 
 public final class Bank extends UnicastRemoteObject implements Messenger {
@@ -95,8 +95,8 @@ public final class Bank extends UnicastRemoteObject implements Messenger {
 	public int getNewId() {
 		return accounts.size();
 	}
-	
-	public String name(){
+
+	public String name() {
 		return name;
 	}
 }

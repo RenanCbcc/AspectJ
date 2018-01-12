@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import exceptions.InsufficientBalanceException;
+import exception.InsufficientBalanceException;
 
 public abstract class Account {
 	private double balance, limit, withdraw;

@@ -8,7 +8,8 @@ import java.rmi.registry.Registry;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import exceptions.InsufficientBalanceException;
+import exception.InsufficientBalanceException;
+import exception.RunningOutOfCashException;
 import server.Bank;
 
 public class CashMachine {
@@ -28,39 +29,45 @@ public class CashMachine {
 		String str = JOptionPane.showInputDialog(null, "What is your name?", "new Account", 0);
 		service.settingUpAccout(str, service.getNewId() + 1);
 	}
-	
-	private void makingaDeposit() throws NumberFormatException, RemoteException{
+
+	private void makingaDeposit() throws NumberFormatException, RemoteException {
 		String str = JOptionPane.showInputDialog(null, "How much would you like to deposit?", "new Deposit", 0);
 		value = Double.parseDouble(str.trim());
 		str = JOptionPane.showInputDialog(null, "What is the ID?", "new Deposit", 0);
 		service.makingaDeposit(Integer.parseInt(str.trim()), value);
 	}
-	
-	private void makingaWithdrawal() throws NumberFormatException, RemoteException, InsufficientBalanceException{
+
+	private void makingaWithdrawal()
+			throws NumberFormatException, RemoteException, InsufficientBalanceException, RunningOutOfCashException {
 		String str = JOptionPane.showInputDialog(null, "How much would you like to take out?", "new Withdrawal", 0);
 		value = Double.parseDouble(str.trim());
+		if (value > available) {
+			throw new RunningOutOfCashException("You can only withdraw: " + available);
+		}
 		str = JOptionPane.showInputDialog(null, "What is the ID?", "new Deposit", 0);
 		service.makingaWithdrawal(Integer.parseInt(str.trim()), value);
 	}
 
-	private void transferringMoney() throws NumberFormatException, RemoteException, InsufficientBalanceException{
+	private void transferringMoney() throws NumberFormatException, RemoteException, InsufficientBalanceException {
 		String str = JOptionPane.showInputDialog(null, "How much would you like to transfer?", "new Transferrence", 0);
 		value = Double.parseDouble(str.trim());
 		str = JOptionPane.showInputDialog(null, "What is the ID?", "new Deposit", 0);
 		String id = JOptionPane.showInputDialog(null, "What is youthe ID?", "new Deposit", 0);
 		service.transferringMoney(Integer.parseInt(str.trim()), Integer.parseInt(id.trim()), value);
 	}
-	
-	private void cancelingAnAccout() throws NumberFormatException, RemoteException{
+
+	private void cancelingAnAccout() throws NumberFormatException, RemoteException {
 		String str = JOptionPane.showInputDialog(null, "How much would you like to transfer?", "new Transferrence", 0);
 		value = Double.parseDouble(str.trim());
 		str = JOptionPane.showInputDialog(null, "What is the ID?", "Canceling An Accout", 0);
 		service.cancelingAnAccout(Integer.parseInt(str.trim()));
 	}
-	public void show() throws NumberFormatException, RemoteException, InsufficientBalanceException {
+
+	public void show()
+			throws NumberFormatException, RemoteException, InsufficientBalanceException, RunningOutOfCashException {
 		String choise = (String) JOptionPane.showInputDialog(new JFrame(), "Select a option !!!", "Welcome!",
 				JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-		
+
 		while (true) {
 			switch (choise) {
 
@@ -98,7 +105,8 @@ public class CashMachine {
 
 	}
 
-	public static void main(String[] args) throws InsufficientBalanceException, RemoteException, NotBoundException {
+	public static void main(String[] args) throws InsufficientBalanceException, RemoteException, NotBoundException,
+			NumberFormatException, RunningOutOfCashException {
 		Registry registry = LocateRegistry.getRegistry(1984);
 		new CashMachine((Bank) registry.lookup("manager")).show();
 

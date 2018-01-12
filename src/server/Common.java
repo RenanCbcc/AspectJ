@@ -11,4 +11,20 @@ public class Common extends Account {
 		
 	}
 
+	public int getTransaction() {
+		return transaction;
+	}
+
+	public void setTransaction(int transaction) {
+		this.transaction = transaction;
+	}
+
+	public static int getFreeTransactions() {
+		return FREE_TRANSACTIONS;
+	}
+
+	public static double getTransactionFee() {
+		return TRANSACTION_FEE;
+	}
+
 }

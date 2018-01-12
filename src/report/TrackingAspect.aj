@@ -2,11 +2,9 @@ package report;
 
 import client.CashMachine;
 import interfaces.AccessTracked;
-import tests.MessageCommunicator;
 
 public aspect TrackingAspect {
 
-	declare parents: MessageCommunicator implements AccessTracked;
 	declare parents: CashMachine implements AccessTracked;
 
 	// The above code has the same effect as declaring: MessageCommunicator

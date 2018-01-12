@@ -3,7 +3,7 @@ package interfaces;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import exceptions.InsufficientBalanceException;
+import exception.InsufficientBalanceException;
 
 public interface Messenger extends Remote{
 
